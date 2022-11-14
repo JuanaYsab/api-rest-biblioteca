@@ -13,6 +13,7 @@ servidor.get("/", (peti, resp)=>{
 });
 
 servidor.use ("/libro", require('./rutas/ruta-libro'));
+servidor.use ( "/autor", require('./rutas/ruta-autor'));
 
 servidor.listen(3000, ()=>{
     console.log("Servidor escuchando en el puerto 3000");

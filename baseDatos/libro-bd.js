@@ -1,8 +1,8 @@
-const conexion = require('./conexion');
+const conexion = require('./../baseDatos/conexion');
 
 async function insert(libro) {
     try {
-        await conexion.execute('INSERT INTO libro(id, titulo, autor, paginas) VALUES(?, ?, ?, ?)', [libro.id, libro.titulo, libro.autor, libro.paginas]);
+        await conexion.execute('INSERT INTO libro(id, titulo, idautor, paginas) VALUES(?, ?, ?, ?)', [libro.id, libro.titulo, libro.idautor, libro.paginas]);
     } catch (err) {
         console.log('Error al insertar libro', err);
         throw err;
@@ -11,7 +11,7 @@ async function insert(libro) {
 
 async function select() {
     try {
-        const [registro, campos] = await conexion.execute('SELECT * FROM libro');
+        const [registro, campos] = await conexion.execute('SELECT * FROM vista_libro');
         return registro;
     } catch (err) {
         console.log('Error al consultar libro', err);
@@ -19,18 +19,16 @@ async function select() {
     }
 }
 
-async function update(libro) {
-    try {
-        const [res] = await conexion.execute(
-            'UPDATE libro SET titulo = ?, autor = ?, paginas = ? WHERE id = ?',
-            [libro.titulo, libro.autor, libro.paginas, libro.id]
-        );
-        console.log(res);
-    } catch (err) {
-        console.log('Error al editar libro', err);
-        throw err;
+async function update(libro){
+    try{
+        await conexion.execute('UPDATE libro SET titulo = ?, idautor = ?, paginas = ? WHERE id = ?',[libro.titulo, libro.idautor, libro.paginas, libro.id]);
+    }catch(error){
+        console.log('Error al editar libro');
+        console.log(error);
+        throw error;
     }
 }
+
 
 async function eliminar(id) {
     try {

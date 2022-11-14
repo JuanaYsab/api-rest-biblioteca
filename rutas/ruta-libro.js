@@ -5,6 +5,9 @@ const tablaLibro = require('./../baseDatos/libro-bd');
 router.get("/", async (peticion, respuesta) => {
     try {
         const listaLibro = await tablaLibro.select();
+        /*setTimeout(() =>{
+            respuesta.json(listaLibro);
+        }, 2000);*/
         respuesta.json(listaLibro);
     } catch (err) {
         respuesta.status(500).send(err.message);
@@ -29,6 +32,7 @@ router.put("/", async (peticion, respuesta) => {
         await tablaLibro.update(libroRecibido)
         respuesta.sendStatus(200);
     } catch (err) {
+        console.log('Error en el put')
         respuesta.status(500).send(err.message);
     }
 });
@@ -44,4 +48,4 @@ router.delete("/:id", async (peticion, respuesta) => {
     }
 });
 
-module.exports = router
+module.exports = router;
